@@ -1,18 +1,28 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Ronald The Intern</title>
+    <title>Paper</title>
     <link>https://kan19.github.io/</link>
-    <description>Recent content on Ronald The Intern</description>
+    <description>Recent content on Paper</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Sun, 13 Aug 2023 18:06:17 +0700</lastBuildDate><atom:link href="https://kan19.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <language>en</language>
+    <copyright>Copyright © 2008–2019, Steve Francia and the lee.so; all rights reserved.</copyright>
+    <lastBuildDate>Sat, 02 Sep 2023 22:37:05 +0700</lastBuildDate><atom:link href="https://kan19.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>OLTP là gì? OLAP là gì? Sự khác nhau giữa OLAP và OLTP</title>
+      <link>https://kan19.github.io/posts/new-post/</link>
+      <pubDate>Sat, 02 Sep 2023 22:37:05 +0700</pubDate>
+      
+      <guid>https://kan19.github.io/posts/new-post/</guid>
+      <description>OLTP là gì? OLAP là gì? Sự khác nhau giữa OLAP và OLTP </description>
+    </item>
+    
     <item>
       <title>This is my post </title>
-      <link>https://kan19.github.io/posts/this-is-my-post/</link>
+      <link>https://kan19.github.io/posts/mypost/</link>
       <pubDate>Sat, 12 Aug 2023 16:22:42 +0700</pubDate>
       
-      <guid>https://kan19.github.io/posts/this-is-my-post/</guid>
+      <guid>https://kan19.github.io/posts/mypost/</guid>
       <description>This is some content
 public static final String data = &amp;#34;123&amp;#34; </description>
     </item>

@@ -2,26 +2,26 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>The Engineer Intern</title>
-    <link>https://kan19.github.io/</link>
+    <link>https://theengineerintern.dev/</link>
     <description>Recent content on The Engineer Intern</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>vi</language>
-    <lastBuildDate>Sat, 02 Sep 2023 22:37:05 +0700</lastBuildDate><atom:link href="https://kan19.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 02 Sep 2023 22:37:05 +0700</lastBuildDate><atom:link href="https://theengineerintern.dev/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Contact</title>
-      <link>https://kan19.github.io/contact/</link>
+      <link>https://theengineerintern.dev/contact/</link>
       <pubDate>Sun, 03 Sep 2023 10:40:35 +0700</pubDate>
       
-      <guid>https://kan19.github.io/contact/</guid>
+      <guid>https://theengineerintern.dev/contact/</guid>
       <description>Contact me via email nguyenkiet0807@gmail.com</description>
     </item>
     
     <item>
       <title>About</title>
-      <link>https://kan19.github.io/about/</link>
+      <link>https://theengineerintern.dev/about/</link>
       <pubDate>Sun, 03 Sep 2023 10:37:32 +0700</pubDate>
       
-      <guid>https://kan19.github.io/about/</guid>
+      <guid>https://theengineerintern.dev/about/</guid>
       <description>Written in Go, Hugo is an open source static site generator available under the Apache Licence 2.0. Hugo supports TOML, YAML and JSON data file types, Markdown and HTML content files and uses shortcodes to add rich content. Other notable features are taxonomies, multilingual mode, image processing, custom output formats, HTML/CSS/JS minification and support for Sass SCSS workflows.
 Hugo makes use of a variety of open source projects including:
 https://github.com/yuin/goldmark https://github.</description>
@@ -29,19 +29,19 @@ https://github.com/yuin/goldmark https://github.</description>
     
     <item>
       <title>OLTP là gì? OLAP là gì? Sự khác nhau giữa OLAP và OLTP</title>
-      <link>https://kan19.github.io/posts/new-post/</link>
+      <link>https://theengineerintern.dev/posts/new-post/</link>
       <pubDate>Sat, 02 Sep 2023 22:37:05 +0700</pubDate>
       
-      <guid>https://kan19.github.io/posts/new-post/</guid>
+      <guid>https://theengineerintern.dev/posts/new-post/</guid>
       <description>OLTP là gì? OLAP là gì? Sự khác nhau giữa OLAP và OLTP </description>
     </item>
     
     <item>
       <title>This is my post </title>
-      <link>https://kan19.github.io/posts/mypost/</link>
+      <link>https://theengineerintern.dev/posts/mypost/</link>
       <pubDate>Sat, 12 Aug 2023 16:22:42 +0700</pubDate>
       
-      <guid>https://kan19.github.io/posts/mypost/</guid>
+      <guid>https://theengineerintern.dev/posts/mypost/</guid>
       <description>This is some content
 public static final String data = &amp;#34;123&amp;#34; </description>
     </item>

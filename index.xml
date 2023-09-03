@@ -1,13 +1,32 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Paper</title>
+    <title>The Engineer Intern</title>
     <link>https://kan19.github.io/</link>
-    <description>Recent content on Paper</description>
+    <description>Recent content on The Engineer Intern</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language>
-    <copyright>Copyright © 2008–2019, Steve Francia and the lee.so; all rights reserved.</copyright>
+    <language>vi</language>
     <lastBuildDate>Sat, 02 Sep 2023 22:37:05 +0700</lastBuildDate><atom:link href="https://kan19.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Contact</title>
+      <link>https://kan19.github.io/contact/</link>
+      <pubDate>Sun, 03 Sep 2023 10:40:35 +0700</pubDate>
+      
+      <guid>https://kan19.github.io/contact/</guid>
+      <description>Contact me via email nguyenkiet0807@gmail.com</description>
+    </item>
+    
+    <item>
+      <title>About</title>
+      <link>https://kan19.github.io/about/</link>
+      <pubDate>Sun, 03 Sep 2023 10:37:32 +0700</pubDate>
+      
+      <guid>https://kan19.github.io/about/</guid>
+      <description>Written in Go, Hugo is an open source static site generator available under the Apache Licence 2.0. Hugo supports TOML, YAML and JSON data file types, Markdown and HTML content files and uses shortcodes to add rich content. Other notable features are taxonomies, multilingual mode, image processing, custom output formats, HTML/CSS/JS minification and support for Sass SCSS workflows.
+Hugo makes use of a variety of open source projects including:
+https://github.com/yuin/goldmark https://github.</description>
+    </item>
+    
     <item>
       <title>OLTP là gì? OLAP là gì? Sự khác nhau giữa OLAP và OLTP</title>
       <link>https://kan19.github.io/posts/new-post/</link>

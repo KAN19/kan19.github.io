@@ -1,0 +1,458 @@
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+  
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg: #fff"
+  lang="vi"
+>
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>Load Balancing là gì? Có ăn được hong? - The Engineer Intern</title>
+
+  
+  <meta name="theme-color" />
+
+  
+  
+  
+  <meta name="description" content="1. Ví dụ mô phỏng Đây là quán bánh tráng cuộn chấm me Ku Kẹc. Ban đầu, quán cũng chỉ là 1 quầy nhỏ trong ngõ.
+Nhưng nhờ khả năng marketing và chất lượng sản phẩm tốt, quán bánh tráng cuộn chấm me ngày càng nhiều khách hơn.
+Vì có quá nhiều khách order, cửa hàng thường xuyên bị quá tải. Nhiều khách phải chờ lâu và cảm thấy không hài lòng." />
+  <meta name="author" content="Kiet (Ronald) Nguyen" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="https://theengineerintern.dev/main.min.css" />
+
+  
+  <script
+    defer
+    src="https://theengineerintern.dev/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+  
+
+  
+   
+  <link rel="preload" as="image" href="https://theengineerintern.dev/theme.png" />
+
+  
+  
+  
+  <link rel="preload" as="image" href="img/avatar.png" />
+  
+  
+
+  
+  <link rel="preload" as="image" href="https://theengineerintern.dev/github.svg" />
+  
+  <link rel="preload" as="image" href="https://theengineerintern.dev/instagram.svg" />
+  
+  <link rel="preload" as="image" href="https://theengineerintern.dev/linkedin.svg" />
+  
+  
+
+  
+  
+
+  
+  <link rel="icon" href="https://theengineerintern.dev/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://theengineerintern.dev/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.120.4">
+
+  
+  
+
+  
+  
+  
+  
+  
+  <meta itemprop="name" content="Load Balancing là gì? Có ăn được hong?">
+<meta itemprop="description" content="Load Balancing là gì? Có ăn được hong?"><meta itemprop="datePublished" content="2023-12-04T17:16:25+07:00" />
+<meta itemprop="dateModified" content="2023-12-04T17:16:25+07:00" />
+<meta itemprop="wordCount" content="1575">
+<meta itemprop="keywords" content="backend,microservices," />
+  
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Load Balancing là gì? Có ăn được hong?"/>
+<meta name="twitter:description" content="Load Balancing là gì? Có ăn được hong?"/>
+
+  
+  
+</head>
+
+  <body class="text-black duration-200 ease-out dark:text-white">
+    <header class="mx-auto flex h-[4.5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    <a
+      class="-translate-x-[1px] -translate-y-[1px] text-2xl font-semibold"
+      href="https://theengineerintern.dev/"
+      >The Engineer Intern</a
+    >
+    <div
+      class="btn-dark text-[0] ml-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 -mr-8 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#fff'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none"
+  >
+    
+    
+    <nav class="lg:ml-12 lg:flex lg:flex-row lg:items-center lg:space-x-6">
+      
+      <a
+        class="block text-center text-2xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/about/"
+        >About</a
+      >
+      
+      <a
+        class="block text-center text-2xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/contact/"
+        >Contact</a
+      >
+      
+    </nav>
+    
+
+    
+    <nav
+      class="mt-12 flex justify-center space-x-10 dark:invert lg:ml-12 lg:mt-0 lg:items-center lg:space-x-6"
+    >
+      
+      <a
+        class="h-8 w-8 text-[0] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href="https://github.com/KAN19"
+        target="_blank"
+        rel="me"
+      >
+        github
+      </a>
+      
+      <a
+        class="h-8 w-8 text-[0] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./instagram.svg)"
+        href="https://instagram.com/nkiet.87"
+        target="_blank"
+        rel="me"
+      >
+        instagram
+      </a>
+      
+      <a
+        class="h-8 w-8 text-[0] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./linkedin.svg)"
+        href="https://linkedin.com/in/kiet-nguyen-943564201"
+        target="_blank"
+        rel="me"
+      >
+        linkedin
+      </a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+
+    <main
+      class="prose prose-neutral relative mx-auto min-h-[calc(100%-9rem)] max-w-3xl px-8 pb-16 pt-12 dark:prose-invert"
+    >
+      
+
+<article>
+  <header class="mb-16">
+    <h1 class="!my-0 pb-2.5">Load Balancing là gì? Có ăn được hong?</h1>
+
+    
+    <div class="text-sm antialiased opacity-60">
+      
+      <time>4 thg 12, 2023</time>
+      
+      
+      
+      
+    </div>
+    
+  </header>
+
+  <section><h2 id="1-ví-dụ-mô-phỏng">1. Ví dụ mô phỏng</h2>
+<p>Đây là quán bánh tráng cuộn chấm me Ku Kẹc. Ban đầu, quán cũng chỉ là 1 quầy nhỏ trong ngõ.</p>
+<p><img src="/load-balancing/load-balancer-1.png" alt="load-balancer-1.png"></p>
+<p>Nhưng nhờ khả năng marketing và chất lượng sản phẩm tốt, quán bánh tráng cuộn chấm me ngày càng nhiều khách hơn.</p>
+<p><img src="/load-balancing/load-balancer-2.png" alt="load-balancer-2.png"></p>
+<p>Vì có quá nhiều khách order, cửa hàng thường xuyên bị quá tải. Nhiều khách phải chờ lâu và cảm thấy không hài lòng.</p>
+<p>Nhìn thấy tình hình như vậy, Ku Kẹc quyết định mở thêm 2 chi nhánh nữa ở các khu lân cận.
+Chủ quán cũng thành lập tổ tiếp nhận và điều phối đơn hàng với 1 số điện thoại duy nhất, chuyên nhận đơn hàng và điều phối đến các chi nhánh có ít order, hoặc là có khoảng cách địa lý gần với người order hơn.</p>
+<p><img src="/load-balancing/loadbalancer-3.png" alt="loadbalancer-3.png"></p>
+<p>Trong bức tranh này, tổ tiếp nhận và điều phối đơn hàng chính là 1 abstract của việc load balancing, tức là cân bằng tải.</p>
+<h2 id="2-load-balancer-là-gì">2. Load balancer là gì?</h2>
+<p>Load balancing là việc phân phối lưu lượng truy cập đến một nhóm các backend servers.</p>
+<p>Module thực hiện việc load balancing gọi là load balancer. Load balancer sẽ đứng trước server và routing các request của client đến các server có khả năng thực hiện các request đó, đảm bảo không có server nào nhận quá nhiều request.
+<img src="/load-balancing/load-balancer-4.png" alt="load-balancer-4.png "></p>
+<p>Load balancer và công việc balancing cũng tương tự như đổi tiếp nhận đơn hàng của cửa hàng bánh tráng cuộn Ku Kẹc, còn các chi nhánh cửa hàng cũng tương tự như các server hệ thống.</p>
+<p>Load balancer thường chia thành 2 loại: Hardware-based và software based.
+<img src="/load-balancing/load-balancer-5.png" alt="load-balancer-5.png "></p>
+<p>Hardware-based load balancer là các thiết bị vật lý chuyên dụng. Các thiết bị này thường sẽ sử dụng các bộ xử lý đặc thù cho việc load balancing.</p>
+<p>Software-based load balancer thì tương tự như một phần mềm chúng ta dùng hằng ngày. Chúng sẽ được cài đặt trên một server bình thường và chịu trách nhiệm nhận và điều tuyến các request.</p>
+<h2 id="3-load-balancers-hoạt-động-như-thế-nào">3. Load balancers hoạt động như thế nào?</h2>
+<p>Như đã nói ở trên, Load balancer đóng vai trò là người trung gian giữa client và server.  Load balancer sẽ nhận các request từ clients, sau đó điều phối đến servers dựa trên tình trạng của server đó và thuật toán được cài đặt ở load balancers.</p>
+<p><img src="/load-balancing/load-balancer-6.png" alt="load-balacner-6.png"></p>
+<h3 id="các-thuật-toán-phổ-biến-cho-việc-load-balancing">Các thuật toán phổ biến cho việc load balancing</h3>
+<h4 id="round-robin">Round Robin:</h4>
+<p>Các request được phân bổ một cách luân phiên hoặc xoay vòng</p>
+<p><img src="/load-balancing/round-robin.png" alt="round-robin.png"></p>
+<p>Lấy ví dụ từ của hàng bánh tráng cuộn ở trên, đơn đầu tiên sẽ được xử lý bởi chi nhánh 1, đơn thứ 2 sẽ được xử lý bởi chi nhánh 2, đơn thứ 3 sẽ được xử lý bởi chi nhánh 3, và đơn thứ 4 sẽ được xử lý bởi chi nhánh 1,… và cứ tiếp tục như vậy</p>
+<h4 id="weighted-round-robin">Weighted Round Robin</h4>
+<p>Thuật toán này khá giống với Round Robin ở trên. Điều khác biệt ở đây là các server sẽ được đánh trọng số. Dựa vào các trọng số này mà các request sẽ được phân phối đến các server. Các trọng số này có thể được đánh dựa trên khả năng xử lý request của server. Chính vì vậy, sẽ có một vài servers phải xử lý nhiều request hơn.</p>
+<p><img src="/load-balancing/weighted-round-robin.png" alt="weighted-round-robin.png"></p>
+<p>Cũng ví dụ từ cửa hàng bánh tráng cuộn trên, giả sử chi nhánh số 2 được đánh trọng số là 0.6, còn 2 chi nhánh còn lại đều là 0.2. Tổ điều phối sẽ dựa trên các trọng số này mà điều phối đơn hàng. Sau 100 đơn hàng, tổng số đơn hàng chi nhánh 2 xử lý sẽ khoảng 60 đơn, trong khi tổng số đơn hàng được xử lý bởi chi nhánh 2 và 3 đều lần lượt khoảng 20.</p>
+<h4 id="least-connection-method">Least Connection Method</h4>
+<p>Với phương pháp này, request sẽ được forward đến server đang có số lượng request hoặc connection ít nhất. Để làm điều này, load balancer cần phải thực hiện thêm một số bước tính toán để xác định chính xác đích đến.</p>
+<p><img src="/load-balancing/least-connection.png" alt="least-connection.png"></p>
+<h4 id="least-response-time-method">Least Response Time Method</h4>
+<p>Với phương pháp này, request sẽ được điều hướng đến server có ít connection nhất và thời gian phản hồi trung bình nhanh nhất. Cũng như phương pháp trên, phương pháp này cần thực hiện thêm một số phép toán để xác định đích đến.</p>
+<p><img src="/load-balancing/least-response.png" alt="least-response.png"></p>
+<h4 id="source-ip-hash">Source IP Hash</h4>
+<p>Với phương pháp này, request sẽ được forward đến server dựa trên địa chỉ IP của clients. Các địa chỉ IP này sẽ được tính toán dựa trên một thuật toán và forward đến server tương ứng.</p>
+<p>Ví dụ từ cửa hàng bánh tráng cuộn: Người A đặt bánh tráng cuộn có vị trí là VNG Campus. Dựa trên vị trí của người đặt, các điều phối viên sẽ chỉ forward đơn hàng đến 1 chi nhánh nhất định.</p>
+<p><img src="/load-balancing/ip-hash.png" alt="ip-hash.png"></p>
+<h2 id="4-làm-sao-để-chọn-thuật-toán-phù-hợp-cho-load-balancer">4. Làm sao để chọn thuật toán phù hợp cho Load Balancer?</h2>
+<p>Việc chọn các thuật toán cho balancer phụ thuộc vào đặc điểm và yêu cầu cụ thể của hệ thống. Vậy nên trong từng trường hợp cụ thể, chúng ta có thể chọn thuật toán cho phù hợp:</p>
+<h4 id="round-robin-1">Round robin:</h4>
+<p>Chúng ta chọn Round robin khi:</p>
+<ul>
+<li>Các servers có khả năng xử lý tương tự nhau</li>
+<li>Khi chúng ta muốn thứ gì đó đơn giản</li>
+</ul>
+<h4 id="weighted-round-robin-1">Weighted Round Robin:</h4>
+<p>Chúng ta sẽ chọn Weighted Round Robin khi:</p>
+<ul>
+<li>Các servers có khả năng xử lý khác nhau, và chúng ta muốn các server xử lý request theo tỉ lệ khác nhau.</li>
+<li>Hữu ích trong trường hợp bạn có máy chủ với sức mạnh xử lý hoặc tài nguyên khác nhau.</li>
+</ul>
+<h4 id="least-connection-method-1">Least Connection Method:</h4>
+<p>Chúng ta sẽ chọn Least connection method khi:</p>
+<ul>
+<li>Các servers đang chịu tải khác nhau, và chúng ta muốn hướng traffic vào server có ít active connections hơn.</li>
+<li>Phù hợp cho việc số active connections là chỉ báo tốt về sức khoẻ của server</li>
+</ul>
+<h4 id="least-response-time-method-1">Least Response Time Method:</h4>
+<p>Chúng ta sẽ chọn Least response time method khi:</p>
+<ul>
+<li>Khi ta đo được thời gian xử lý, và chúng ta muốn hướng lưu lượng truy cập đến server có phản hồi nhanh nhất</li>
+<li>Hữu ích trong việc tối ưu hoá tốc độ phản hồi của hệ thống.</li>
+</ul>
+<h4 id="source-ip-hash-1">Source IP Hash:</h4>
+<p>Chúng ta sẽ chọn IP Hash khi:</p>
+<ul>
+<li>Duy trì session, đảm bảo các yêu cầu từ cùng 1 IP được hướng đến cùng 1 server</li>
+<li>Hữu ích trong các ứng dụng khi việc thay đổi server có thể gây gián đoạn hoặc dữ liệu không nhất quán.</li>
+</ul>
+<h2 id="5-lợi-ích-và-bất-lợi-khi-triển-khai-load-balancer">5. Lợi ích và bất lợi khi triển khai Load Balancer</h2>
+<h3 id="lợi-ích">Lợi ích</h3>
+<ul>
+<li>Improved performance: Vì có nhiều server, và các request được phân bổ đều trên các servers, nên performance được cải thiện, tránh tình trạng overloads</li>
+<li>High availability: Vì các server xử lý các request độc lập, nên trong trường hợp một trong số các server bị lỗi, thì hệ thống vẫn hoạt động nhờ các server còn lại.</li>
+<li>Scalability: Dể dàng mở rộng hệ thống. Trong trường hợp traffic tăng, chúng ta đơn giản chỉ cần thêm server hoặc thêm services để xử lý chúng.</li>
+</ul>
+<h3 id="bất-lợi">Bất lợi</h3>
+<ul>
+<li>
+<p>Single point of failure: Vì tất cả các request đều thông qua load balancer trước tiên, nên trong trường hợp load balancer ngủm củ tỏi, thì coi như hệ thống cũng sập.</p>
+</li>
+<li>
+<p>Cost: Một số loại load balancer có thể khá đắt đỏ (đối với hardware-based balancers). Ngoài ra việc chạy load balancers cũng tiêu hao tài nguyên trên server (Đối với software-based balancer)</p>
+</li>
+<li>
+<p>Performance bottlenecks: Load balancers đôi khi cũng trở thành nút thắt cổ chai trong hệ thống, do không kịp xử lý các incoming request.</p>
+<p><img src="/load-balancing/pros-cons.png" alt="pros-cons.png"></p>
+</li>
+</ul>
+<p>Các lợi ích và bất lợi của load balancer thiệt ra còn rất nhiều, nhưng mình chỉ liệt kê những điều mình thấy rõ nhất :D</p>
+<h2 id="6-handling-disadvantages">6. Handling disadvantages</h2>
+<p>Khi triển khai load balancing, chúng ta cần có những chiến thuật và phương pháp xử lý khi gặp những vấn đề bất lợi mà mình đã nêu trên. Ở đây mình sẽ nói 2 ý là Single point of failure và performance bottlenecks. Cái &ldquo;Cost&rdquo; kia thì rõ ràng rùi. Để khắc phục &ldquo;cost&rdquo; thì chỉ có nước bơm thêm tiền dô thui</p>
+<h3 id="single-point-of-failure">Single point of failure:</h3>
+<ul>
+<li>Redundancy: Tức là chúng ta sẽ triển khai dự phòng các load balancers. Trong trường hợp load balancers chính bị fail, một con load balancer dự phòng sẽ được triển khai ngay lập tức.</li>
+<li>Cloud-based load balancers: Chúng ta có thể cân nhắc sử dụng balancer từ các cloud provider như AWS,..</li>
+<li>Monitoring and Alerting: Triển khai hệ thống giám sát và cảnh báo để có thể xử lý kịp thời trong trường hợp load balancer có dấu hiệu xấu.</li>
+</ul>
+<h3 id="performance-bottlenecks">Performance bottlenecks:</h3>
+<ul>
+<li>Load balancer scaling: Nếu load balancers trở thành bottlenecks của hệ thống, hãy cân nhắc việc scale thêm load balancers.</li>
+<li>Optimize load balancer configuration</li>
+<li>Cache:</li>
+<li>Content Delivery Networks (CDNs)</li>
+</ul>
+<h2 id="take-away-">Take away ☕</h2>
+<p><img src="/load-balancing/take-away.png" alt="take-away.png"></p>
+<ul>
+<li>Load balancer là trung gian giữa request từ client đến server</li>
+<li>Load balancing rất cần thiết cho việc mở rộng hệ thống</li>
+<li>Có nhiều loại load balancer khác nhau và nhiều kịch bản triển khai khác nhau.</li>
+<li>Lựa chọn thuật toán cho load balancers là rất quan trọng trong việc tối ưu traffic giữa các server với nhau</li>
+<li>Việc triển khai load balancer mang lại nhiều lợi ích. Tuy nhiên, chúng ta cần phải có chiến thuật và kịch bản khi có lỗi phát sinh.</li>
+</ul>
+</section>
+
+  
+  
+  <footer class="mt-12 flex flex-wrap">
+     
+    <a
+      class="mb-1.5 mr-1.5 rounded-lg bg-black/[3%] px-5 py-1.5 no-underline dark:bg-white/[8%]"
+      href="https://theengineerintern.dev/tags/backend"
+      >backend</a
+    >
+     
+    <a
+      class="mb-1.5 mr-1.5 rounded-lg bg-black/[3%] px-5 py-1.5 no-underline dark:bg-white/[8%]"
+      href="https://theengineerintern.dev/tags/microservices"
+      >microservices</a
+    >
+    
+  </footer>
+  
+
+  
+  
+  
+  
+  
+
+  
+  
+
+  
+  
+</article>
+
+
+    </main>
+
+    <footer
+  class="opaco mx-auto flex h-[4.5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60"
+>
+  <div class="mr-auto">
+    &copy; 2023
+    <a class="link" href="https://theengineerintern.dev/">The Engineer Intern</a>
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >Powered by Hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >✎ Paper</a
+  >
+</footer>
+
+  </body>
+</html>

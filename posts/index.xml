@@ -6,8 +6,17 @@
     <description>Recent content in Posts on The Engineer Intern</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>vi</language>
-    <lastBuildDate>Mon, 04 Dec 2023 17:16:25 +0700</lastBuildDate>
+    <lastBuildDate>Tue, 05 Dec 2023 22:53:44 +0700</lastBuildDate>
     <atom:link href="https://theengineerintern.dev/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Nghịch ngợm triển khai load balancing với Nginx</title>
+      <link>https://theengineerintern.dev/posts/trien-khai-nginx-load-balancing/</link>
+      <pubDate>Tue, 05 Dec 2023 22:53:44 +0700</pubDate>
+      <guid>https://theengineerintern.dev/posts/trien-khai-nginx-load-balancing/</guid>
+      <description>Hôm nay mình sẽ thử triển khai load balancing sử dụng Nginx nhé. Các kiến thức cơ bản về Load balancing, trông nó ra sao, hoạt động thế nào, mình đã có một bài viết ở đây: Load Balancing là gì? Có ăn được hong?
+1. Load balancing là gì Load balancing là việc phân phối lưu lượng truy cập đến một nhóm các backend servers.
+Module thực hiện việc load balancing gọi là load balancer.</description>
+    </item>
     <item>
       <title>Load Balancing là gì? Có ăn được hong?</title>
       <link>https://theengineerintern.dev/posts/basic-load-balancing/</link>

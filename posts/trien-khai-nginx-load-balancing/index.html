@@ -1,0 +1,489 @@
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+  
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg: #fff"
+  lang="vi"
+>
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>Nghịch ngợm triển khai load balancing với Nginx - The Engineer Intern</title>
+
+  
+  <meta name="theme-color" />
+
+  
+  
+  
+  <meta name="description" content="Hôm nay mình sẽ thử triển khai load balancing sử dụng Nginx nhé. Các kiến thức cơ bản về Load balancing, trông nó ra sao, hoạt động thế nào, mình đã có một bài viết ở đây: Load Balancing là gì? Có ăn được hong?
+1. Load balancing là gì Load balancing là việc phân phối lưu lượng truy cập đến một nhóm các backend servers.
+Module thực hiện việc load balancing gọi là load balancer." />
+  <meta name="author" content="Kiet (Ronald) Nguyen" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="https://theengineerintern.dev/main.min.css" />
+
+  
+  <script
+    defer
+    src="https://theengineerintern.dev/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+  
+
+  
+   
+  <link rel="preload" as="image" href="https://theengineerintern.dev/theme.png" />
+
+  
+  
+  
+  <link rel="preload" as="image" href="img/avatar.png" />
+  
+  
+
+  
+  <link rel="preload" as="image" href="https://theengineerintern.dev/github.svg" />
+  
+  <link rel="preload" as="image" href="https://theengineerintern.dev/instagram.svg" />
+  
+  <link rel="preload" as="image" href="https://theengineerintern.dev/linkedin.svg" />
+  
+  
+
+  
+  
+
+  
+  <link rel="icon" href="https://theengineerintern.dev/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://theengineerintern.dev/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.120.4">
+
+  
+  
+
+  
+  
+  
+  
+  
+  <meta itemprop="name" content="Nghịch ngợm triển khai load balancing với Nginx">
+<meta itemprop="description" content="Hôm nay mình sẽ thử triển khai load balancing sử dụng Nginx nhé. Các kiến thức cơ bản về Load balancing, trông nó ra sao, hoạt động thế nào, mình đã có một bài viết ở đây: Load Balancing là gì? Có ăn được hong?
+1. Load balancing là gì Load balancing là việc phân phối lưu lượng truy cập đến một nhóm các backend servers.
+Module thực hiện việc load balancing gọi là load balancer."><meta itemprop="datePublished" content="2023-12-05T22:53:44+07:00" />
+<meta itemprop="dateModified" content="2023-12-05T22:53:44+07:00" />
+<meta itemprop="wordCount" content="826">
+<meta itemprop="keywords" content="" />
+  
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Nghịch ngợm triển khai load balancing với Nginx"/>
+<meta name="twitter:description" content="Hôm nay mình sẽ thử triển khai load balancing sử dụng Nginx nhé. Các kiến thức cơ bản về Load balancing, trông nó ra sao, hoạt động thế nào, mình đã có một bài viết ở đây: Load Balancing là gì? Có ăn được hong?
+1. Load balancing là gì Load balancing là việc phân phối lưu lượng truy cập đến một nhóm các backend servers.
+Module thực hiện việc load balancing gọi là load balancer."/>
+
+  
+  
+</head>
+
+  <body class="text-black duration-200 ease-out dark:text-white">
+    <header class="mx-auto flex h-[4.5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    <a
+      class="-translate-x-[1px] -translate-y-[1px] text-2xl font-semibold"
+      href="https://theengineerintern.dev/"
+      >The Engineer Intern</a
+    >
+    <div
+      class="btn-dark text-[0] ml-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 -mr-8 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#fff'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none"
+  >
+    
+    
+    <nav class="lg:ml-12 lg:flex lg:flex-row lg:items-center lg:space-x-6">
+      
+      <a
+        class="block text-center text-2xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/about/"
+        >About</a
+      >
+      
+      <a
+        class="block text-center text-2xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/contact/"
+        >Contact</a
+      >
+      
+    </nav>
+    
+
+    
+    <nav
+      class="mt-12 flex justify-center space-x-10 dark:invert lg:ml-12 lg:mt-0 lg:items-center lg:space-x-6"
+    >
+      
+      <a
+        class="h-8 w-8 text-[0] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href="https://github.com/KAN19"
+        target="_blank"
+        rel="me"
+      >
+        github
+      </a>
+      
+      <a
+        class="h-8 w-8 text-[0] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./instagram.svg)"
+        href="https://instagram.com/nkiet.87"
+        target="_blank"
+        rel="me"
+      >
+        instagram
+      </a>
+      
+      <a
+        class="h-8 w-8 text-[0] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./linkedin.svg)"
+        href="https://linkedin.com/in/kiet-nguyen-943564201"
+        target="_blank"
+        rel="me"
+      >
+        linkedin
+      </a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+
+    <main
+      class="prose prose-neutral relative mx-auto min-h-[calc(100%-9rem)] max-w-3xl px-8 pb-16 pt-12 dark:prose-invert"
+    >
+      
+
+<article>
+  <header class="mb-16">
+    <h1 class="!my-0 pb-2.5">Nghịch ngợm triển khai load balancing với Nginx</h1>
+
+    
+    <div class="text-sm antialiased opacity-60">
+      
+      <time>5 thg 12, 2023</time>
+      
+      
+      
+      
+    </div>
+    
+  </header>
+
+  <section><p>Hôm nay mình sẽ thử triển khai load balancing sử dụng Nginx nhé. Các kiến thức cơ bản về Load balancing, trông nó ra sao, hoạt động thế nào, mình đã có một bài viết ở đây: <em><strong><a href="https://theengineerintern.dev/posts/basic-load-balancing/">Load Balancing là gì? Có ăn được hong?</a></strong></em></p>
+<h2 id="1-load-balancing-là-gì">1. Load balancing là gì</h2>
+<p>Load balancing là việc phân phối lưu lượng truy cập đến một nhóm các backend servers.</p>
+<p>Module thực hiện việc load balancing gọi là load balancer. Load balancer sẽ đứng trước server và routing các request của client đến các server có khả năng thực hiện các request đó, đảm bảo không có server nào nhận quá nhiều request.</p>
+<h2 id="2-hello-nginx">2. Hello Nginx!</h2>
+<p>Nginx đơn giản là một phần mềm mã nguồn mở hỗ trợ chúng ta trong việc xây dựng web server. Nginx ngày càng phổ biến nhờ vào tính ổn định, hiệu suất và khả năng tối ưu hoá resource.</p>
+<blockquote>
+<p><em>Nginx ban đầu được tạo ra để giải quyết vấn đề C10k, một thuật ngử được đặt ra vào năm 1999 để mô tả khó khăn mà các web server tại thời điểm đó khi phải xử lý số lượng lớn (10K) kết nối đồng thời</em></p>
+</blockquote>
+<p>Ngoài việc làm web server, Nginx còn có thể làm nhiều “trò” khác như: reverse proxy, TLS/SSL termination, caching,… và load balancing mà chúng ta sẽ thực hiện trong bài viết này.</p>
+<p><img src="/nginx-load-balancing/statistic-nginx.png" alt="statistic-nginx.png"></p>
+<p>Giới thiệu thế đủ rồi. Giờ mình tay dô làm nhé</p>
+<h2 id="3-sơ-đồ-triển-khai">3. Sơ đồ triển khai</h2>
+<p><img src="/nginx-load-balancing/trien-khai.png" alt="trien-khai.png"></p>
+<p>Mình sẽ sử dụng docker để triển khai nginx trên máy local. Bên cạnh đó, mình tạo ra thêm 3 instance của demo service, mỗi instance này sẽ có port khác nhau</p>
+<h2 id="4-triển-khai-step-by-step">4. Triển khai step by step</h2>
+<h3 id="config-app-serivce">Config app serivce</h3>
+<p>Đầu tiên chúng ta sẽ tạo ứng dụng Spring boot làm vai trò application service cho sơ đồ trên.</p>
+<p><img src="/nginx-load-balancing/spring-initializr.png" alt="spring-initializr.png"></p>
+<p>Chúng ta chỉ cần dùng Spring Web Dependencies là đủ rồi.</p>
+<p>Tiếp đến, chúng ta tạo một controller và implement một GetMapping method:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">package</span> com.example.demoservice.controller;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.springframework.beans.factory.annotation.Value;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.springframework.web.bind.annotation.GetMapping;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.springframework.web.bind.annotation.RestController;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@RestController</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">GreetingController</span> {
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">@Value</span>(<span style="color:#e6db74">&#34;${server.port:unknown}&#34;</span>)
+</span></span><span style="display:flex;"><span>    String portId;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@GetMapping</span>(<span style="color:#e6db74">&#34;/hello&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">hello</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> String.<span style="color:#a6e22e">format</span>(<span style="color:#e6db74">&#34;Hello from instance %s&#34;</span>, portId);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Vậy thui là đủ rồi. Chúng ta tiếp tục đến với việc config nginx.</p>
+<h3 id="config-nginx">Config Nginx</h3>
+<p>Đầu tiên chúng ta tạo 1 file config cho nginx.</p>
+<pre tabindex="0"><code>#File name: nginx.conf
+
+upstream demo-service {
+    server host.docker.internal:4001;
+    server host.docker.internal:4002;
+    server host.docker.internal:4003;
+}
+server {
+  server_name default localhost;
+  listen    80;
+
+  location / {
+    proxy_pass  http://demo-service;
+  }
+}
+</code></pre><p>Ở đây trong <code>demo-service</code> , mình thể dùng “<a href="http://localhost">localhost</a>:xxx” được, vì mình triển khai nginx trên docker container, còn các service kia thì chạy trực tiếp trên máy local. Bản thân container muốn giao tiếp với host của nó thì phải dùng host.docker.internal. Trước đây mình có từng đau đầu mấy buổi liền về vấn đề này :((((( Kỷ niệm khó quên lúc mới dô công ty luôn.
+Khi config upstream như trên, nginx sẽ sử dụng thuật toán balancing default là Round Robin.</p>
+<p>Dưới đây là một vài config khác để cài đặt các thuật toán load balancing:</p>
+<ul>
+<li>Weighted Round Robin</li>
+</ul>
+<pre tabindex="0"><code>upstream demo-service {
+    server host.docker.internal:4001 weight=1;
+    server host.docker.internal:4002 weight=2;
+    server host.docker.internal:4003 weight=3;
+}
+</code></pre><ul>
+<li>Least connection</li>
+</ul>
+<pre tabindex="0"><code>upstream demo-service {
+		least_conn;
+    server host.docker.internal:4001;
+    server host.docker.internal:4002;
+    server host.docker.internal:4003;
+}
+</code></pre><ul>
+<li>IP Hash</li>
+</ul>
+<pre tabindex="0"><code>upstream demo-service {
+		ip_hash;
+    server host.docker.internal:4001;
+    server host.docker.internal:4002;
+    server host.docker.internal:4003;
+}
+</code></pre><ul>
+<li>Least time (Nginx plus only)</li>
+</ul>
+<pre tabindex="0"><code>upstream demo-service {
+		least_time header;
+    server host.docker.internal:4001;
+    server host.docker.internal:4002;
+    server host.docker.internal:4003;
+}
+</code></pre><ul>
+<li>Random</li>
+</ul>
+<pre tabindex="0"><code>upstream demo-service {
+		random two least_conn
+    server host.docker.internal:4001;
+    server host.docker.internal:4002;
+    server host.docker.internal:4003;
+}
+</code></pre><p>Tiếp đến mình sẽ sử dụng 1 docker compose file. Lưu ý là file docker-compose này phải để cùng thư mục với file <code>nginx.conf</code>  nhé</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-docker" data-lang="docker"><span style="display:flex;"><span>version: <span style="color:#e6db74">&#39;3.7&#39;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Define services</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>services:<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>  proxy:<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    container_name: proxy-server<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    image: nginx<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    volumes:<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>      - ./:/etc/nginx/conf.d<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    ports:<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>      - <span style="color:#e6db74">&#34;8080:80&#34;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p>Mọi thứ đã gần xong. Giờ cùng khởi động nó lên thôi.</p>
+<h3 id="run-app-thui">Run app thui</h3>
+<p>Đầu tiên ta di chuyển đến thư mục demo-service và chạy lệnh dưới đây để start services lên.</p>
+<pre tabindex="0"><code>mvn spring-boot:run -Dspring-boot.run.jvmArguments=&#34;-Dserver.port=4001&#34;
+mvn spring-boot:run -Dspring-boot.run.jvmArguments=&#34;-Dserver.port=4002&#34;
+mvn spring-boot:run -Dspring-boot.run.jvmArguments=&#34;-Dserver.port=4003&#34;
+</code></pre><p>Sau đó mình di chuyển đến thư mục chứa docker compose file rồi chạy <code>docker-compose up</code></p>
+<h3 id="test-app">Test app</h3>
+<p>Mình sử dụng 1 app js nhỏ để request. Thiệt ra chúng ta có thể đơn giản hơn bằng việc sử dụng curl chạy trực tiếp trên command. Nhưng không hiểu sao khi mình thêm loop vào cái curl đó thì nó xịt keo tịt đứng cứng ngắc lun</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#75715e">// clientAPI.js
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">http</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;http&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">getMessage</span> <span style="color:#f92672">=</span> () =&gt; {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">request</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;http://localhost:8080/hello&#39;</span>, (<span style="color:#a6e22e">response</span>) =&gt; {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">data</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">on</span>(<span style="color:#e6db74">&#39;data&#39;</span>, (<span style="color:#a6e22e">chunk</span>) =&gt; {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">data</span> <span style="color:#f92672">+=</span> <span style="color:#a6e22e">chunk</span>;
+</span></span><span style="display:flex;"><span>        });
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">on</span>(<span style="color:#e6db74">&#39;end&#39;</span>, () =&gt; {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">data</span>);
+</span></span><span style="display:flex;"><span>        });
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">request</span>.<span style="color:#a6e22e">on</span>(<span style="color:#e6db74">&#39;error&#39;</span>, (<span style="color:#a6e22e">error</span>) =&gt; {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;An error&#39;</span>, <span style="color:#a6e22e">error</span>);
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">request</span>.<span style="color:#a6e22e">end</span>();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">setInterval</span>(<span style="color:#a6e22e">getMessage</span>, <span style="color:#ae81ff">1000</span>);
+</span></span></code></pre></div><p>Sau đó gọi node clientAPI.js và thu được kết quả ở dưới. (Sử dụng Round robin)</p>
+<p><img src="/nginx-load-balancing/result-round-robin.png" alt="result-round-robin.png"></p>
+<p>Còn đây là kết quả khi sử dụng weighted rounded robin</p>
+<p><img src="/nginx-load-balancing/result-weighted-round-robin.png" alt="result-weighted-round-robin.png"></p>
+<p>Đối với các thuật toán khác, mời các bạn chạy thử và xem kết quả nha!!</p>
+</section>
+
+  
+  
+
+  
+  
+  
+  
+  <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
+    
+    
+    <a
+      class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+      href="https://theengineerintern.dev/posts/basic-load-balancing/"
+      ><span>Load Balancing là gì? Có ăn được hong?</span><span class="ml-1.5">→</span></a
+    >
+    
+  </nav>
+  
+  
+
+  
+  
+
+  
+  
+</article>
+
+
+    </main>
+
+    <footer
+  class="opaco mx-auto flex h-[4.5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60"
+>
+  <div class="mr-auto">
+    &copy; 2023
+    <a class="link" href="https://theengineerintern.dev/">The Engineer Intern</a>
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >Powered by Hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >✎ Paper</a
+  >
+</footer>
+
+  </body>
+</html>

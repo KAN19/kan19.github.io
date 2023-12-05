@@ -120,7 +120,7 @@ Vì có quá nhiều khách order, cửa hàng thường xuyên bị quá tải.
   <meta itemprop="name" content="Load Balancing là gì? Có ăn được hong?">
 <meta itemprop="description" content="Load Balancing là gì? Có ăn được hong?"><meta itemprop="datePublished" content="2023-12-04T17:16:25+07:00" />
 <meta itemprop="dateModified" content="2023-12-04T17:16:25+07:00" />
-<meta itemprop="wordCount" content="1575">
+<meta itemprop="wordCount" content="1618">
 <meta itemprop="keywords" content="backend,microservices," />
   
   <meta name="twitter:card" content="summary"/>
@@ -385,9 +385,9 @@ Chủ quán cũng thành lập tổ tiếp nhận và điều phối đơn hàng
 <h3 id="performance-bottlenecks">Performance bottlenecks:</h3>
 <ul>
 <li>Load balancer scaling: Nếu load balancers trở thành bottlenecks của hệ thống, hãy cân nhắc việc scale thêm load balancers.</li>
-<li>Optimize load balancer configuration</li>
-<li>Cache:</li>
-<li>Content Delivery Networks (CDNs)</li>
+<li>Optimize load balancer configuration: Tối ưu lại các settings của load balancer, như là connection limits, timeouts, hoặc buffer sizes</li>
+<li>Cache: Triên khai thêm cache để hạn chế việc phải gọi đến backend server</li>
+<li>Content Delivery Networks (CDNs): Tận dụng CDN để có thể serve static content cho end-user nhanh chóng hơn.</li>
 </ul>
 <h2 id="take-away-">Take away ☕</h2>
 <p><img src="/load-balancing/take-away.png" alt="take-away.png"></p>
@@ -422,6 +422,17 @@ Chủ quán cũng thành lập tổ tiếp nhận và điều phối đơn hàng
   
   
   
+  
+  <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
+    
+    <a
+      class="flex w-1/2 items-center rounded-l-md p-6 pr-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+      href="https://theengineerintern.dev/posts/trien-khai-nginx-load-balancing/"
+      ><span class="mr-1.5">←</span><span>Nghịch ngợm triển khai load balancing với Nginx</span></a
+    >
+    
+    
+  </nav>
   
   
 
